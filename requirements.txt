@@ -1,0 +1,17 @@
+# SelfCheckGPT Experiment 1 — Python Dependencies
+# Unpinned (human-readable). For exact pinned versions see requirements-lock.txt
+# generated via: pip freeze > requirements-lock.txt
+
+# Core ML
+torch
+transformers
+datasets
+
+# Evaluation
+scikit-learn
+numpy
+pandas
+
+# Utilities
+tqdm
+pyyaml

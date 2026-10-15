@@ -1,0 +1,65 @@
+# SelfCheckGPT Experiment 1 — Frozen Experiment Specification
+# IMMUTABLE: Do not modify this file. It defines the reproduction target.
+# Any deviation from these parameters must be documented as a separate experiment/ablation.
+
+dataset:
+  name: potsawee/wiki_bio_gpt3_hallucination
+  split: evaluation
+  expected_passages: 238
+  expected_sentences: 1908
+  expected_samples_per_passage: 20
+  fields:
+    - gpt3_text
+    - gpt3_sentences
+    - gpt3_text_samples
+    - annotation
+    - wiki_bio_text
+    - wiki_bio_test_idx
+
+original_generation:  # Historical facts only — DO NOT regenerate
+  model: "gpt-3 (text-davinci-003, deprecated)"
+  original_response_temperature: 0.0
+  sampled_response_temperature: 1.0
+  note: >
+    The dataset already contains the frozen GPT-3 generations.
+    This experiment reproduces the detection methodology only,
+    not the original GPT-3 generation process.
+
+detector:
+  method: SelfCheck-NLI
+  nli_checkpoint: potsawee/deberta-v3-large-mnli  # Exact checkpoint — do NOT substitute
+  formula_ref: "SelfCheckGPT paper Eq. 9-10 (Manakul et al., EMNLP 2023)"
+  substitutions_forbidden:
+    - microsoft/deberta-large-mnli
+    - any other DeBERTa MNLI checkpoint
+    - modern NLI models
+    - LLM judges
+
+label_mapping:
+  nonfact_task:
+    accurate: 0
+    minor_inaccurate: 1
+    major_inaccurate: 1
+  factual_task:
+    accurate: 1
+    minor_inaccurate: 0
+    major_inaccurate: 0
+
+targets:
+  nonfact_aucpr: 92.50
+  factual_aucpr: 66.08
+  random_nonfact_aucpr: 72.96
+  random_factual_aucpr: 27.04
+
+inference:
+  batch_size: 32        # Safe for Colab/Kaggle T4 (15 GB) and P100 (16 GB)
+  cpu_batch_size: 8     # Fallback for local CPU execution
+  total_pairs: 38160    # 1908 sentences × 20 samples
+  precision: float32
+
+outputs:
+  nli_matrix: outputs/scores/nli_scores.npy          # shape (1908, 20)
+  sentence_scores: outputs/scores/sentence_scores.npy # shape (1908,)
+  metrics: outputs/metrics/reproduction_results.json
+  metadata: outputs/metrics/run_metadata.json
+  log: outputs/logs/reproduction.log

@@ -1,0 +1,36 @@
+{
+  "model": "potsawee/deberta-v3-large-mnli",
+  "dataset": "potsawee/wiki_bio_gpt3_hallucination",
+  "split": "evaluation",
+  "n_passages": 238,
+  "n_sentences": 1908,
+  "samples_per_passage": 20,
+  "total_pairs": 38160,
+  "batch_size": 32,
+  "device": "cuda",
+  "gpu": "Tesla T4",
+  "nli_matrix_shape": [
+    1908,
+    20
+  ],
+  "nli_matrix_min": 9.226025576936081e-05,
+  "nli_matrix_max": 0.9999285936355591,
+  "nli_matrix_mean": 0.7583070397377014,
+  "gate5_passed": true,
+  "gate6_passed": true,
+  "smoke_test_scores": [
+    0.9994363188743591,
+    0.9995864033699036,
+    0.9998642206192017,
+    8.228605292970315e-05,
+    0.0003188875853084028,
+    0.1127743199467659
+  ],
+  "torch_version": "2.10.0+cu128",
+  "transformers_version": "5.0.0",
+  "datasets_version": "5.0.0",
+  "sklearn_version": "1.6.1",
+  "numpy_version": "2.0.2",
+  "python_version": "3.12.13",
+  "platform": "Linux-6.12.90+-x86_64-with-glibc2.35"
+}
